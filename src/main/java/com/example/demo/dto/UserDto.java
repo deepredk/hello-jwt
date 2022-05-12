@@ -1,5 +1,9 @@
 package com.example.demo.dto;
 
+import java.util.stream.Collectors;
+import java.util.Set;
+
+import com.example.demo.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,7 +20,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-
     @NotNull
     @Size(min = 3, max = 50)
     private String username;
@@ -29,5 +32,19 @@ public class UserDto {
     @NotNull
     @Size(min = 3, max = 50)
     private String nickname;
+
+    private java.util.Set<AuthorityDto> authorityDtoSet;
+
+    public static UserDto from(User user) {
+        if(user == null) return null;
+
+        return UserDto.builder()
+            .username(user.getUsername())
+            .nickname(user.getNickname())
+            .authorityDtoSet(user.getAuthorities().stream()
+                    .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
+                    .collect(Collectors.toSet()))
+            .build();
+    }
 
 }
