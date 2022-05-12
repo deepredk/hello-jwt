@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -13,6 +14,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests() // HttpServletRequest를 사용한 요청들에 대해 접근제한
             .antMatchers("/api/hello").permitAll() // 얘는 인증없어도 됨
             .anyRequest().authenticated(); // 나머지는 인증되어야 함
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+            .ignoring() // 무시해
+            .antMatchers("/h2-console/**", "/favicon.ico"); // 요것들
     }
     
 }
