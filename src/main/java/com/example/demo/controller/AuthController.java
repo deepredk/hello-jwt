@@ -19,16 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
 
     @PostMapping("/authenticate")
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
